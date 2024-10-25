@@ -14,6 +14,7 @@ const Sidebar = () => {
           <img className='w-6' src={assets.search_icon} alt="" />
           <p className='font-bold'>Search</p>
         </div>
+
       </div>
 
       <div className='bg-[#121212] h-[85%] rounded'>
