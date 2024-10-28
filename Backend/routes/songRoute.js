@@ -9,7 +9,8 @@ router.route("/").post(upload.fields([{name:'image',maxCount:1},{name:'audio',ma
 .get(errorHandler(getAllSong))
 
 router.route("/:id").get(errorHandler((fetchSingleSong)))
-.delete(errorHandler(deleteSong));
+.delete(errorHandler(deleteSong))
+// .patch(errorHandler(updateSong))
 
 
 export default router

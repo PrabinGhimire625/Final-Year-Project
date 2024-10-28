@@ -1,7 +1,8 @@
 import express from "express"
 import cors from "cors"
 import dotenv from "dotenv"
-import router from "./routes/songRoute.js";
+import songRouter from "./routes/songRoute.js";
+import albumRouter from "./routes/albumRoute.js"
 import connectDB from "./config/mongoDb.js";
 import connectCloudinary from "./config/cloudinary.js";
 dotenv.config()
@@ -19,12 +20,10 @@ app.use(express.urlencoded());
 app.use(cors());
 
 //import routes
-app.use("/api/song",router)
+app.use("/api/song",songRouter)
+app.use("/api/album",albumRouter)
 
-//initializing routes
-app.get("/",(req, res)=>{
-    res.send("API Woking")
-})
+
 
 app.listen(port,()=>{
     console.log(`Server is running on the PORT ${port}`)
