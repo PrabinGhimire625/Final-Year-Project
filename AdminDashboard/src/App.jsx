@@ -5,8 +5,8 @@ import AddSong from "./pages/AddSong";
 import AddAlbum from "./pages/AddAlbum";
 import ListAlbum from "./pages/ListAlbum";
 import ListSong from "./pages/ListSong";
-import Sidebar from "./components/Sidebar";
-import Navbar from "./components/Navbar";
+import Sidebar from "./globals/components/Sidebar";
+import Navbar from "./globals/components/Navbar";
 
 function App() {
   return (
