@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Form = ({type,onSubmit}) => {
   const [userData,setUserData]=useState({
@@ -15,17 +16,23 @@ const Form = ({type,onSubmit}) => {
     })
   }
 
-  // const handleSubmit=(e)=>{
-  //   e.preventDefault();
-  //   onSubmit(userData);
-  // }
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    onSubmit(userData);
+  }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
+    <div className="flex justify-center items-center min-h-screen bg-black">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
         <div className="text-center">
           <img src="https://storage.googleapis.com/devitary-image-host.appspot.com/15846435184459982716-LogoMakr_7POjrN.png" className="w-20 mx-auto mb-4" alt="Logo" />
-          <h1 className="text-3xl font-bold mb-6 text-gray-800">Sign Up</h1>
+         {
+          type==="register" ? (
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Sign Up</h1>
+          ):(
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">Log in</h1>
+          )
+         }
         </div>
         <div className="flex flex-col items-center">
           <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
@@ -37,40 +44,56 @@ const Form = ({type,onSubmit}) => {
                 <path d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z" fill="#ea4335" />
               </svg>
             </div>
-            <span className="ml-4">Sign Up with Google</span>
+            <span className="ml-4">
+              {type==="register" ? (<span>Sign Up</span>) : (<span>Login</span>)} with Google</span>
           </button>
-          <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
+          {/* <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
             <div className="bg-white p-1 rounded-full">
               <svg className="w-6" viewBox="0 0 32 32">
                 <path fillRule="evenodd" d="M16 4C9.371 4 4 9.371 4 16c0 5.3 3.438 9.8 8.207 11.387.602.11.82-.258.82-.578 0-.286-.011-1.04-.015-2.04-3.34.723-4.043-1.609-4.043-1.609-.547-1.387-1.332-1.758-1.332-1.758-1.09-.742.082-.726.082-.726 1.203.086 1.836 1.234 1.836 1.234 1.07 1.836 2.808 1.305 3.492 1 .11-.777.422-1.305.762-1.605-2.664-.301-5.465-1.332-5.465-5.93 0-1.313.469-2.383 1.234-3.223-.121-.3-.535-1.523.117-3.175 0 0 1.008-.32 3.301 1.23A11.487 11.487 0 0116 9.805c1.02.004 2.047.136 3.004.402 2.293-1.55 3.297-1.23 3.297-1.23.656 1.652.246 2.875.12 3.175.77.84 1.231 1.91 1.231 3.223 0 4.61-2.804 5.621-5.476 5.922.43.367.812 1.101.812 2.219 0 1.605-.011 2.898-.011 3.293 0 .32.214.695.824.578C24.566 25.797 28 21.3 28 16c0-6.629-5.371-12-12-12z" />
               </svg>
             </div>
             <span className="ml-4">Sign Up with GitHub</span>
-          </button>
+          </button> */}
         </div>
 
         {/* Or sign up with email */}
-        <div className="my-12 border-b text-center">
-          <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-bold bg-white transform translate-y-1/2">Or sign up with e-mail</div>
+        <div className="my-8 border-b text-center">
+          <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-bold bg-white transform translate-y-1/2">Or {type==="register" ? (<span>sign up</span>):(<span>login</span>)} with e-mail</div>
         </div>
 
-        <form className="flex flex-col gap-4" >
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
          {
           type==="register" && (
             <input onChange={handleChange} name='username' type="username" placeholder="username" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
           )
          }
          
-
-
           <input onChange={handleChange} type="email" name='email' placeholder="Email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
           <input onChange={handleChange} type="password" name='password' placeholder="Password" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
-          <button type='submit' className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all">Sign Up</button>
+         
+        {
+          type==="register" ? (
+            <button type='submit' className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all">Sign Up</button>
+          
+          ):(
+            <button type='submit' className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all">Log in</button>
+          
+          )
+        }
         </form>
         <p className="mt-3 ml-24 text-sm font-light text-gray-500 dark:text-gray-400 underline">
           <a className="text-xl font-semibold text-blue-600 hover:underline dark:text-blue-500" href="/signin">Forgot password</a>
         </p>
-        <p className="mt-4 ml-16 text-sm font-light text-gray-500 dark:text-gray-400">Already have an account? <a className="font-medium text-blue-600 hover:underline dark:text-blue-500" href="/signin">Sign in here</a></p>
+        
+       {
+        type==="register" ? (
+          <p className="mt-4 ml-16 text-base font-light text-gray-500 dark:text-gray-400">Already have an account? <a className="font-medium text-blue-600 hover:underline dark:text-blue-500"><Link to="/login">Sign in here</Link></a></p>
+        ):(
+          <p className="mt-4 ml-16 text-base font-light text-gray-500 dark:text-gray-400">Not a member?<a className="font-medium text-blue-600 hover:underline dark:text-blue-500"><Link to="/register"> register now</Link></a></p>
+        
+        )
+       }
       </div>
     </div>
   )

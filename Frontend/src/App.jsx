@@ -7,21 +7,33 @@ import DisplaySingleAlbum from "./components/pages/singleAlbum/DisplaySingleAlbu
 import Form from "./components/pages/auth/Form"
 import Login from "./components/pages/auth/login/Login"
 import Register from "./components/pages/auth/signup/Register"
+import Profile from "./components/pages/auth/profile/Profile"
+import EditProfile from "./components/pages/auth/profile/editProfile/EditProfile"
+import store from "./store/store"
+import { Provider } from "react-redux"
+
 
 function App() {
   return (
     <>       
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Display/>}/>
-        <Route path="/form" element={<Form/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/navbar" element={<Navbar/>}/>
-        <Route path="/sidebar" element={<Sidebar/>}/>
-        <Route path="/album/:id" element={<DisplaySingleAlbum/>}/>
-      </Routes>
-    </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Display/>}/>
+            <Route path="/form" element={<Form/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/editProfile" element={<EditProfile/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/navbar" element={<Navbar/>}/>
+            <Route path="/sidebar" element={<Sidebar/>}/>
+            <Route path="/album/:id" element={<DisplaySingleAlbum/>}/>
+          </Routes>
+      </BrowserRouter>
+
+      </Provider>
+
     </>
   )
 }

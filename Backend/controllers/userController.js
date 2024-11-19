@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     const newUser = new User({ username, email, password: hanshPassword });
     await newUser.save();
     res
-      .status(201)
+      .status(200)
       .json({ message: "User registered successfully", data: newUser });
   } catch (error) {
     if (error.name === "ValidationError") {
