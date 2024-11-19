@@ -81,6 +81,12 @@ export const profile = async (req, res) => {
   }
 };
 
+//edit profile
+// export const editProfile=async(req,res)=>{
+//   const {username,password,image}=req.body
+
+// }
+
 //fetch all user
 export const fetchAllUser=async(req,res)=>{
   const allUser=await User.find(); 

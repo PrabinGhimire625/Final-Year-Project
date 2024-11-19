@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "../globals/components/enumStatus/Status";
-import { API } from "../http";
+import { API, APIAuthenticated } from "../http";
 
 const authSlice=createSlice({
     name:"auth",
@@ -8,6 +8,7 @@ const authSlice=createSlice({
         data:[],
         status : STATUS.LOADING,
         token:"",
+        profile:""
     },
     reducers:{
         setUserData(state,action){
@@ -21,12 +22,15 @@ const authSlice=createSlice({
         },
         setToken(state,action){
             state.token=action.payload;
-            console.log(state.token)
+            console.log(state.token);
+        },
+        setProfile(state,action){
+            state.profile=action.payload
         }
     }
 })
 
-export const {setUserData,setStatus,resetStatus,setToken}=authSlice.actions
+export const {setUserData,setStatus,resetStatus,setToken,setProfile}=authSlice.actions
 export default authSlice.reducer
 
 //signup
@@ -35,8 +39,6 @@ export function register(data){
         dispatch(setStatus(STATUS.LOADING));
         try{
             const response=await API.post("/api/user/register",data);
-            console.log(response)
-            console.log(data)
             if(response.status===200){
                 dispatch(setStatus(STATUS.SUCCESS));
             }else{
@@ -57,7 +59,6 @@ export function login(data){
             if(response.status===200){
                 const {token,data}=response.data;
                 console.log(token)
-                console.log(data)
                 dispatch(setStatus(STATUS.SUCCESS));
                 dispatch(setToken(token));
                 localStorage.setItem('token',token);
@@ -65,7 +66,26 @@ export function login(data){
                 dispatch(setStatus(STATUS.ERROR));
             }
         }catch(err){
-            console.error("Error : ", err);
+            dispatch(setStatus(STATUS.ERROR));
+        }  
+    }
+}
+
+//user profile
+export function userProfile(){
+    return async function profileThunk(dispatch) {
+        dispatch(setStatus(STATUS.LOADING));
+        try{
+            const response=await APIAuthenticated.get("/api/user/profile");
+            console.log(response)
+            if(response.status===200){
+                const {data}=response.data;
+                dispatch(setProfile(data));
+                dispatch(setStatus(STATUS.SUCCESS));  
+            }else{
+                dispatch(setStatus(STATUS.ERROR));
+            }
+        }catch(err){
             dispatch(setStatus(STATUS.ERROR));
         }  
     }

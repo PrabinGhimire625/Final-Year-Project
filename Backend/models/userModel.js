@@ -12,13 +12,10 @@ const userSchema = new mongoose.Schema({
             'Please provide a valid email address'
         ]
     },
-    password: { 
-        type: String, 
-        required: true,
-    },
-    role: {
-        type: String,
-        enum: ["user", "admin", "moderator"], 
+    password: {type: String, required: true },
+    image: {type: String},
+    role: {type: String,
+    enum: ["user", "admin", "moderator"], 
         default: "user", 
     },
 });

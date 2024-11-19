@@ -62,7 +62,22 @@ const Form = ({type,onSubmit}) => {
           <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-bold bg-white transform translate-y-1/2">Or {type==="register" ? (<span>sign up</span>):(<span>login</span>)} with e-mail</div>
         </div>
 
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+     
+        {
+          type==='register' && (
+            <div className='flex justify-center items-center'>
+            <label className="cursor-pointer">
+              <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-20 w-20 md:h-28 md:w-28" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile"/>
+              <input type="file" accept="image/*" className="hidden" />
+            </label>
+          </div>
+          )
+          
+        }
+
+            
+
+        <form className="flex flex-col gap-4 mt-5" onSubmit={handleSubmit}>
          {
           type==="register" && (
             <input onChange={handleChange} name='username' type="username" placeholder="username" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
