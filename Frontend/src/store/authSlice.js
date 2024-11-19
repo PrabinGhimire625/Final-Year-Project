@@ -38,7 +38,11 @@ export function register(data){
     return async function registerUserThunk(dispatch){
         dispatch(setStatus(STATUS.LOADING));
         try{
-            const response=await API.post("/api/user/register",data);
+            const response=await API.post("/api/user/register",data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            });
             if(response.status===200){
                 dispatch(setStatus(STATUS.SUCCESS));
             }else{

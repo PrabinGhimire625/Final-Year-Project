@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import {v2 as cloudinary} from "cloudinary";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -6,6 +7,10 @@ import jwt from "jsonwebtoken";
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    const imageFile=req.files.image[0];
+
+    const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+
     if (!username || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -16,7 +21,7 @@ export const register = async (req, res) => {
     }
     const hanshPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, email, password: hanshPassword });
+    const newUser = new User({ username, email, password: hanshPassword , image:imageUpload.secure_url });
     await newUser.save();
     res
       .status(200)
@@ -120,13 +125,48 @@ export const deleteUser=async(req,res)=>{
 }
 
 //update user
-export const updateUser=async(req,res)=>{
-  const {id}=req.params;
-  const {username,email}=req.body;
-  const user=await User.findByIdAndUpdate(id,{username,email},{ new: true, runValidators: true });
-  if(user){
-    res.status(200).json({message:"Successfully update the users data",data:user});
-  }else{
-    res.status(404).json({message:"User not found"});
+// export const updateUser=async(req,res)=>{
+//   const {id}=req.params;
+//   const {username,email}=req.body;
+//   const user=await User.findByIdAndUpdate(id,{username,email},{ new: true, runValidators: true });
+//   if(user){
+//     res.status(200).json({message:"Successfully update the users data",data:user});
+//   }else{
+//     res.status(404).json({message:"User not found"});
+//   }
+// }
+
+export const updateUser = async (req, res) => {
+  try {
+    const { username } = req.body;
+    const userId = req.params.id;
+    const imageFile = req.files?.image?.[0]; 
+   
+    // Prepare the update object
+    const updateData = {};
+    if (username) {
+      updateData.username = username; 
+    }
+    if (imageFile) {
+      const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+        resource_type: "image",
+      });
+      updateData.image = imageUpload.secure_url; 
+    }
+
+    // Update user details
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData }, // Use $set to update specific fields
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ message: "User updated successfully", data: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
   }
-}
+};

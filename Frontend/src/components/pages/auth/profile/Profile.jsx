@@ -23,9 +23,9 @@ const Profile = () => {
           <div className="w-full flex items-start bg-black px-12 py-12 rounded-lg shadow-lg ml-10">
             {/* Profile Image */}
             <div className="relative">
-              <Link to="/editProfile">
+            <Link to={`/editProfile/${profile?._id}`}>
                 {" "}
-                <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-40 w-40 md:h-56 md:w-56" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile"/>
+                <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-40 w-40 md:h-56 md:w-56" src={profile?.image} alt="Profile"/>
                 <p className="absolute top-2 right-2 text-sm md:text-lg text-gray-400 bg-gray-800 px-2 py-1 rounded cursor-pointer hover:text-white hover:bg-gray-700 transition">
                   Edit
                 </p>
@@ -34,10 +34,10 @@ const Profile = () => {
 
             {/* User Info */}
             <div className="text-left ml-4 mt-12 ">
-              <Link to="/editProfile">
+              <Link to={`/editProfile/${profile?._id}`}>
                 {" "}
                 <h1 className="text-7xl md:text-12xl text-gray-200 font-bold">
-                  {profile.username}
+                  {profile?.username}
                 </h1>
               </Link>
               <p className="text-sm md:text-lg text-gray-400 ml-8 mt-4">

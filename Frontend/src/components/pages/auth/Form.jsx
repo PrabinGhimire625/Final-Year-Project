@@ -1,39 +1,52 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
-const Form = ({type,onSubmit}) => {
-  const [userData,setUserData]=useState({
-    username:"",
-    email:"",
-    password:""
-  })
+const Form = ({ type, onSubmit }) => {
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    image: "",
+  });
+  const [previewImage, setPreviewImage] = useState("");
 
-  const handleChange=(e)=>{
-    const {name,value}=e.target
-    setUserData({
-      ...userData,
-      [name]:value
-    })
-  }
+  const handleChange = (e) => {
+    const { name, files, value } = e.target;
+    if (name === "image") {
+      const file = files[0];
+      setPreviewImage(URL.createObjectURL(file)); // Set preview URL
+      setUserData({
+        ...userData,
+        [name]: file,
+      });
+    } else {
+      setUserData({
+        ...userData,
+        [name]: value,
+      });
+    }
+  };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(userData);
-  }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-black">
       <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
         <div className="text-center">
-          <img src="https://storage.googleapis.com/devitary-image-host.appspot.com/15846435184459982716-LogoMakr_7POjrN.png" className="w-20 mx-auto mb-4" alt="Logo" />
-         {
-          type==="register" ? (
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Sign Up</h1>
-          ):(
-            <h1 className="text-3xl font-bold mb-6 text-gray-800">Log in</h1>
-          )
-         }
+          <img
+            src="https://storage.googleapis.com/devitary-image-host.appspot.com/15846435184459982716-LogoMakr_7POjrN.png"
+            className="w-20 mx-auto mb-4"
+            alt="Logo"
+          />
+          <h1 className="text-3xl font-bold mb-6 text-gray-800">
+            {type === "register" ? "Sign Up" : "Log in"}
+          </h1>
         </div>
+
+        {/* signup wth email part */}
         <div className="flex flex-col items-center">
           <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
             <div className="bg-white p-2 rounded-full">
@@ -62,56 +75,85 @@ const Form = ({type,onSubmit}) => {
           <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-bold bg-white transform translate-y-1/2">Or {type==="register" ? (<span>sign up</span>):(<span>login</span>)} with e-mail</div>
         </div>
 
-     
-        {
-          type==='register' && (
-            <div className='flex justify-center items-center'>
+        {type === "register" && (
+          <div className="flex justify-center items-center">
             <label className="cursor-pointer">
-              <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-20 w-20 md:h-28 md:w-28" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile"/>
-              <input type="file" accept="image/*" className="hidden" />
+              <img
+                className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-20 w-20 md:h-28 md:w-28"
+                src={previewImage || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD116U9ZCk8bEaanCeB5rSCC2uqY5Ka_2_EA&s"} // Display placeholder if no image is selected
+                alt="fdsg"
+              />
+              <input
+                onChange={handleChange}
+                type="file"
+                accept="image/*"
+                name="image"
+                className="hidden"
+              />
             </label>
           </div>
-          )
-          
-        }
-
-            
-
+        )}
+        
         <form className="flex flex-col gap-4 mt-5" onSubmit={handleSubmit}>
-         {
-          type==="register" && (
-            <input onChange={handleChange} name='username' type="username" placeholder="username" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
-          )
-         }
-         
-          <input onChange={handleChange} type="email" name='email' placeholder="Email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
-          <input onChange={handleChange} type="password" name='password' placeholder="Password" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black" />
-         
-        {
-          type==="register" ? (
-            <button type='submit' className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all">Sign Up</button>
-          
-          ):(
-            <button type='submit' className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all">Log in</button>
-          
-          )
-        }
+          {type === "register" && (
+            <input
+              onChange={handleChange}
+              name="username"
+              type="text"
+              placeholder="Username"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+            />
+          )}
+          <input
+            onChange={handleChange}
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+          />
+          <input
+            onChange={handleChange}
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black"
+          />
+          <button
+            type="submit"
+            className="w-full py-3 bg-indigo-500 text-white rounded-lg font-semibold hover:bg-indigo-600 transition-all"
+          >
+            {type === "register" ? "Sign Up" : "Log in"}
+          </button>
         </form>
-        <p className="mt-3 ml-24 text-sm font-light text-gray-500 dark:text-gray-400 underline">
-          <a className="text-xl font-semibold text-blue-600 hover:underline dark:text-blue-500" href="/signin">Forgot password</a>
+        <p className="mt-3 text-center text-sm text-gray-500 underline">
+          <Link to="/signin">Forgot password?</Link>
         </p>
-        
-       {
-        type==="register" ? (
-          <p className="mt-4 ml-16 text-base font-light text-gray-500 dark:text-gray-400">Already have an account? <a className="font-medium text-blue-600 hover:underline dark:text-blue-500"><Link to="/login">Sign in here</Link></a></p>
-        ):(
-          <p className="mt-4 ml-16 text-base font-light text-gray-500 dark:text-gray-400">Not a member?<a className="font-medium text-blue-600 hover:underline dark:text-blue-500"><Link to="/register"> register now</Link></a></p>
-        
-        )
-       }
+        <p className="mt-4 text-center text-base text-gray-500">
+          {type === "register" ? (
+            <>
+              Already have an account?{" "}
+              <Link
+                className="text-blue-600 hover:underline"
+                to="/login"
+              >
+                Sign in here
+              </Link>
+            </>
+          ) : (
+            <>
+              Not a member?{" "}
+              <Link
+                className="text-blue-600 hover:underline"
+                to="/register"
+              >
+                Register now
+              </Link>
+            </>
+          )}
+        </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Form
+export default Form;

@@ -1,7 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../../sidebar/Sidebar";
+import { useDispatch, useSelector } from "react-redux";
+import { userProfile } from "../../../../../store/authSlice";
+import { useParams } from "react-router-dom";
 
 const EditProfile = () => {
+  const {id}=useParams();
+  console.log(id);
+  const dispatch=useDispatch();
+  const {profile,status}=useSelector((state)=>state.auth);
+  console.log(profile);
+  console.log(status)
+
+  const [userData,setUserData]=useState({
+    username:"",
+    image:null
+  });
+
+  //handle change funct
+  const handleChange=(e)=>{
+    const {name,files,value}=e.target;
+    setUserData({
+      ...userData,
+      [name]: name === 'image' ? files[0] : value
+    })
+  }
+
+  // const handleSubmit=(e)=>{
+  //   e.preventDefalt();
+   
+  // }
+
+  // useEffect(()=>{
+  //   if(profile){
+  //     setUserData({
+
+  //     })
+
+  //   }
+  // },[profile])
+
+
+  useEffect(()=>{
+    dispatch(userProfile());
+  },[dispatch])
+
   return (
     <div className="h-screen bg-black">
       <div className="h-[90%] flex">
@@ -11,7 +54,7 @@ const EditProfile = () => {
             {/* Profile Image Upload */}
             <div className="relative">
               <label className="cursor-pointer">
-                <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-40 w-40 md:h-56 md:w-56" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Profile" />
+                <img className="object-cover rounded-full shadow-lg bg-indigo-50 text-indigo-600 h-40 w-40 md:h-56 md:w-56" src={profile?.image} alt="Profile" />
                 <input type="file" accept="image/*" className="hidden" />
               </label>
               <p className="absolute top-2 right-2 text-sm md:text-lg text-gray-400 bg-gray-800 px-2 py-1 rounded cursor-pointer hover:text-white hover:bg-gray-700 transition">
