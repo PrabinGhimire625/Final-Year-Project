@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "../globals/components/enumStatus/Status";
 import { API, APIAuthenticated } from "../http";
+import axios from "axios";
 
 const authSlice=createSlice({
     name:"auth",
@@ -26,11 +27,20 @@ const authSlice=createSlice({
         },
         setProfile(state,action){
             state.profile=action.payload
+        },
+        setUpdateUserProfile(state,action){
+            const index=state.data.findIndex(item=>item.id===action.payload.id);
+            if(index!==-1){
+                state.data[index]={
+                    ...state.data[index],
+                    ...action.payload.data
+                }
+            }
         }
     }
 })
 
-export const {setUserData,setStatus,resetStatus,setToken,setProfile}=authSlice.actions
+export const {setUserData,setStatus,resetStatus,setToken,setProfile,setUpdateUserProfile}=authSlice.actions
 export default authSlice.reducer
 
 //signup
@@ -94,3 +104,32 @@ export function userProfile(){
         }  
     }
 }
+
+
+//update user
+export function updateUserProfile({ id, userData }) {
+    return async function updateUserProfileThunk(dispatch) {
+      dispatch(setStatus(STATUS.LOADING));
+      try {
+        const response = await APIAuthenticated.patch(`/api/user/${id}`, userData, {
+          headers: {
+            "Content-Type": "multipart/form-data", 
+          },
+        });
+  
+        if (response.status === 200) {
+          const { data } = response.data;
+          dispatch(setUpdateUserProfile({ id, data })); 
+          dispatch(setStatus(STATUS.SUCCESS));
+        } else {
+          dispatch(setStatus(STATUS.ERROR));
+          throw new Error("Update failed");
+        }
+      } catch (err) {
+        dispatch(setStatus(STATUS.ERROR));
+        console.error("Error updating profile:", err);
+        throw err;
+      }
+    };
+  }
+  

@@ -12,6 +12,6 @@ router.route("/").get(errorHandler(fetchAllUser))
 router.route("/:id").get(errorHandler(fetchSingleUser))
 .delete(errorHandler(deleteUser))
 
-.patch(upload.fields([{ name: 'image', maxCount: 1 }]), errorHandler(updateUser));  // Correct order here
+.patch(upload.fields([{ name: 'image', maxCount: 1 }]), errorHandler(updateUser)); 
 
 export default router
