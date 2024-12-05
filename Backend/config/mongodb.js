@@ -5,7 +5,7 @@ const connectDB=async()=>{
         console.log("Connect to the mongodb server")
 
     })
-    await mongoose.connect(`${process.env.MONGODB_URL}/beatPop`)
+    await mongoose.connect(`${process.env.MONGODB_URL}/TuneCasa`)
 
 }
 

@@ -6,12 +6,14 @@ import jwt from "jsonwebtoken";
 //register
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
+
     const imageFile=req.files.image[0];
+    //console.log(imageFile)
 
     const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
 
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !role) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -21,11 +23,11 @@ export const register = async (req, res) => {
     }
     const hanshPassword = await bcrypt.hash(password, 10);
 
-    const newUser = new User({ username, email, password: hanshPassword , image:imageUpload.secure_url });
+    const newUser = new User({ username, email, password: hanshPassword , image:imageUpload.secure_url,role });
     await newUser.save();
     res
       .status(200)
-      .json({ message: "User registered successfully", data: newUser });
+      .json({ message: `${role} registered successfully`, data: newUser });
   } catch (error) {
     if (error.name === "ValidationError") {
       return res.status(400).json({ message: error.message });

@@ -6,14 +6,16 @@ import albumRouter from "./routes/albumRoute.js"
 import userRouter from "./routes/userRoute.js"
 import connectDB from "./config/mongoDb.js";
 import connectCloudinary from "./config/cloudinary.js";
+import adminSeeder from "./adminSeeder.js";
 dotenv.config()
 
 //app config
 const app=express();
 const port=process.env.PORT || 3000;
 
-connectDB(); //to connect the mongodb4
+connectDB(); //to connect the mongodb
 connectCloudinary(); //to connect the cloudinary
+adminSeeder();
 
 //middleware
 app.use(express.json());

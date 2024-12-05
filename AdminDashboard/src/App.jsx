@@ -1,37 +1,27 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import AddSong from "./pages/AddSong";
-import AddAlbum from "./pages/AddAlbum";
-import ListAlbum from "./pages/ListAlbum";
-import ListSong from "./pages/ListSong";
-import Sidebar from "./globals/components/Sidebar";
-import Navbar from "./globals/components/Navbar";
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Landing from './pages/landing/Landing'
+import store from './store/store'
+import { Provider } from 'react-redux'
+import Tables from './pages/sidebar/Tables/Table'
+import Users from './pages/sidebar/Tables/users/Users'
+import Login from './pages/form/auth/Login'
 
 function App() {
+
   return (
-    <>
-      <BrowserRouter>
-        <div className="flex items-start min-h-screen">
-          <ToastContainer />
-          <Sidebar/>
+   <Provider store={store}>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<Landing/>}/>
+      <Route path='/login' element={<Login/>}/>
 
-          <div className="flex-1 h-screen overflow-y-scroll bg-[#F3FFF7]">
-            <Navbar/>
-            <div className="pt-8 pl-5 sm:pt-12 sm:pl-12">
-              <Routes>
-                <Route path="/add-song" element={<AddSong />} />
-                <Route path="/add-album" element={<AddAlbum />} />
-                <Route path="/list-song" element={<ListSong />} />
-                <Route path="/list-album" element={<ListAlbum />} />
-              </Routes>
-            </div>
-          </div>
-
-        </div>
-      </BrowserRouter>
-    </>
-  );
+      <Route path='/tables' element={<Tables/>}/>
+      <Route path='/users' element={<Users/>}/>
+    </Routes>
+    </BrowserRouter>
+   </Provider>
+  )
 }
 
-export default App;
+export default App
