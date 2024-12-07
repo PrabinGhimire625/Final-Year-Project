@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { STATUS } from "../globals/enumStatus/Status";
-import { API } from "../http/index";
+import { API, APIAuthenticated } from "../http/index";
 
 const authSlice=createSlice({
     name:"auth",
@@ -27,14 +27,13 @@ const authSlice=createSlice({
             console.log(state.token);
         },
         setProfile(state,action){
-            state.profile=action.payload
+            state.profile=action.payload          
         }
     }
 })
 
 export const {setUserdata,setStatus, resetStatus,setToken,setProfile}=authSlice.actions
 export default authSlice.reducer
-
 
 //login user
 export function login(data){
@@ -45,7 +44,7 @@ export function login(data){
             if(response.status===200){
                 const {token,data}=response.data;
                 console.log(data);
-                console.log(token)
+                console.log(token);
                 dispatch(setStatus(STATUS.SUCCESS));
                 dispatch(setUserdata(data));
                 dispatch(setToken(token));
@@ -54,6 +53,7 @@ export function login(data){
                 dispatch(setStatus(STATUS.ERROR));
             }
         }catch(err){
+            console.log(err);
             dispatch(setStatus(STATUS.ERROR));
         }  
     }
@@ -61,20 +61,24 @@ export function login(data){
 
 //user profile
 export function userProfile(){
-    return async function profileThunk(dispatch) {
+    return async function userProfileThunk(dispatch) {
         dispatch(setStatus(STATUS.LOADING));
         try{
             const response=await APIAuthenticated.get("/api/user/profile");
-            console.log(response)
+            console.log(response);
             if(response.status===200){
                 const {data}=response.data;
+                console.log(data);
                 dispatch(setProfile(data));
                 dispatch(setStatus(STATUS.SUCCESS));  
             }else{
                 dispatch(setStatus(STATUS.ERROR));
             }
         }catch(err){
+           console.log(err);
             dispatch(setStatus(STATUS.ERROR));
         }  
     }
 }
+
+

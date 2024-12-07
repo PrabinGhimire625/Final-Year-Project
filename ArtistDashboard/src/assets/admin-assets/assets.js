@@ -7,9 +7,14 @@ import add_song from './add_song.png'
 import song_icon from './song_icon.png'
 import album_icon from './album_icon.png'
 import upload_song from './upload_song.png'
-
+import TunecasaLogo from "./TunecasaLogo.png"
+import TLogo from "./TLogo.png"
+import LogoHorizontal from "./LogoHorizontal.png"
 export const assets ={
     logo,
+    TLogo,
+    LogoHorizontal,
+    TunecasaLogo,
     logo_small,
     upload_area,
     upload_added,

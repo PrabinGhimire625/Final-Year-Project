@@ -17,8 +17,8 @@ const APIAuthenticated = axios.create({
         'Content-Type' : 'application/json',
         'Accept' : 'application/json',
         'Authorization' : `${localStorage.getItem('token')}`  //for the token
-        
     }
 })
 
 export {API, APIAuthenticated}
+

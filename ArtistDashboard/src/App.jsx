@@ -7,6 +7,7 @@ import ListAlbum from "./pages/ListAlbum";
 import ListSong from "./pages/ListSong";
 import Sidebar from "./globals/components/Sidebar";
 import Navbar from "./globals/components/Navbar";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/add-album" element={<AddAlbum />} />
                 <Route path="/list-song" element={<ListSong />} />
                 <Route path="/list-album" element={<ListAlbum />} />
+                <Route path="/dashboard" element={<Dashboard />} />
               </Routes>
             </div>
           </div>

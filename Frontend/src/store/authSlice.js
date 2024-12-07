@@ -87,7 +87,7 @@ export function login(data){
 
 //user profile
 export function userProfile(){
-    return async function profileThunk(dispatch) {
+    return async function userprofileThunk(dispatch) {
         dispatch(setStatus(STATUS.LOADING));
         try{
             const response=await APIAuthenticated.get("/api/user/profile");

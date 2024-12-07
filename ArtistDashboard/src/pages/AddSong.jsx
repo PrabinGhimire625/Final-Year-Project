@@ -21,20 +21,11 @@ const AddSong = () => {
   //   albumData: [],
   // });
   
-  
 
 
   const handleSubmit=async(e)=>{
     e.preventDefault();
-
-
-
   }
-
-
-
-
-
 
 
   return loading ? (

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setToken, userProfile } from '../../store/authSlice';
-import { setUserData } from '../../store/dataSlice';
+
 
 const Navbar = () => {
     const dispatch=useDispatch();
-    const {token,status,profile}=useSelector((state)=>state.auth);
+    const navigate=useNavigate();
+    const {token,status, profile}=useSelector((state)=>state.auth);
     console.log(token);
     console.log(status);
  
@@ -23,11 +24,11 @@ const Navbar = () => {
         setIsloggedIn(!!localStorageToken || !!token);
       }, [token,dispatch]);
 
-
-      useEffect(()=>{
-        dispatch(userProfile())
-      },[])
-     console.log(profile);
+  useEffect(()=>{
+        dispatch(userProfile());
+    },[dispatch])
+    console.log(profile)
+    const firstLetter =   profile?.username?.slice(0, 1) || '';
 
       // handle logout
     const handleLogout=()=>{
@@ -35,8 +36,6 @@ const Navbar = () => {
         setIsloggedIn(false);
         navigate("/login");
       }
-
-
 
 
     return (
@@ -79,33 +78,23 @@ const Navbar = () => {
                                                     Logout
                                         </button>        
                                         
-                                        <li className="max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium text-[#333] cursor-pointer">
-                                            <div className="relative ml-3">
-                                                <div>
-                                                    <button
-                                                        type="button"
-                                                        className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                                                    >
-                                                        <img
-                                                            className="h-8 w-8 rounded-full"
-                                                           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                                            alt=""
-                                                        />
-                                                    </button>
+                                        <Link to="/profile">
+                                            <li className="max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium text-[#333] cursor-pointer">
+                                                <div className="relative ml-3">
+                                                    <div>
+                                                        <button
+                                                            type="button"
+                                                            className="relative flex items-center justify-center h-8 w-8 rounded-full bg-gray-800 text-white text-sm font-bold"
+                                                        >
+                                                            {firstLetter.toUpperCase()}
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
-
-
+                                            </li>
+                                        </Link>
                                         </>
-                                        
-                                       
                                     )
                                 }
-                                
-                                
-                               
-                              
                             </ul>
                         </div>
                     </div>
