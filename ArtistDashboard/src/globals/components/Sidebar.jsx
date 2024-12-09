@@ -37,7 +37,6 @@ const Sidebar = () => {
               <p className='hidden sm:block '>Dashboard</p> 
             </Link>
 
-
             {/* add song */}
             <Link to='/add-song' className='flex items-center gap-2.5 text-gray-800 bg-white border border-black p-2 pr-[max(8vw, 10px)] drop-shadow-[-4px_4px_#000000] text-sm font-medium'>
               <img src={assets.add_song} className='w-5' alt="" />

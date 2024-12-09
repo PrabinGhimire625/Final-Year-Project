@@ -8,13 +8,16 @@ import ListSong from "./pages/ListSong";
 import Sidebar from "./globals/components/Sidebar";
 import Navbar from "./globals/components/Navbar";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import {Provider} from "react-redux"
+import store from "./store/store"
 
 function App() {
   return (
-    <>
+    <Provider  store={store}>
       <BrowserRouter>
+      <ToastContainer />
         <div className="flex items-start min-h-screen">
-          <ToastContainer />
+         
           <Sidebar/>
 
           <div className="flex-1 h-screen overflow-y-scroll bg-[#F3FFF7]">
@@ -32,7 +35,7 @@ function App() {
 
         </div>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
