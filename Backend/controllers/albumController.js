@@ -68,3 +68,40 @@ export const deleteAlbum=async(req,res)=>{
     }
     res.status(200).json({message:"Successfully delete the album"})
 }
+
+//update album
+export const updateAlbum = async (req, res) => {
+    try {
+      const id = req.params.id; 
+      const { name, desc, bgColour } = req.body; 
+      const imageFile = req.files?.image?.[0]; 
+  
+      // Prepare the update data object
+      const updateData = {};
+      if (name) updateData.name = name;
+      if (desc) updateData.desc = desc;
+      if (bgColour) updateData.bgColour = bgColour;
+  
+
+      if (imageFile) {
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
+          resource_type: "image",
+        });
+        updateData.image = imageUpload.secure_url; 
+      }
+  
+      // Update album details
+      const updatedAlbum = await albumModel.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true } 
+      );
+  
+      if (!updatedAlbum) {
+        return res.status(404).json({ message: "Album not found" });
+      }
+      res.status(200).json({ message: "Album updated successfully", data: updatedAlbum });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+};

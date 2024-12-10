@@ -8,9 +8,9 @@ import ListSong from "./pages/Tables/ListSong";
 import Sidebar from "./globals/components/Sidebar";
 import Navbar from "./globals/components/Navbar";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import SingleAlbum from "./pages/SinglePages/SingleAlbum";
 import {Provider} from "react-redux"
 import store from "./store/store"
+import EditAlbum from "./pages/EditForm/EditAlbum";
 
 function App() {
   return (
@@ -18,7 +18,6 @@ function App() {
       <BrowserRouter>
       <ToastContainer />
         <div className="flex items-start min-h-screen">
-         
           <Sidebar/>
 
           <div className="flex-1 h-screen overflow-y-scroll bg-[#F3FFF7]">
@@ -31,8 +30,7 @@ function App() {
                 <Route path="/list-album" element={<ListAlbum />} />
                 <Route path="/dashboard" element={<Dashboard />} />
             
-                <Route path="/singleAlbum/:id" element={<SingleAlbum />} />
-          
+                <Route path="/editAlbum/:id" element={<EditAlbum />} />
               </Routes>
             </div>
           </div>
