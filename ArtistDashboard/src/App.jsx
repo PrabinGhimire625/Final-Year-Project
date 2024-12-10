@@ -1,13 +1,14 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import AddSong from "./pages/AddSong";
-import AddAlbum from "./pages/AddAlbum";
-import ListAlbum from "./pages/ListAlbum";
-import ListSong from "./pages/ListSong";
+import AddSong from "./pages/AddForm/AddSong";
+import AddAlbum from "./pages/AddForm/AddAlbum";
+import ListAlbum from "./pages/Tables/ListAlbum";
+import ListSong from "./pages/Tables/ListSong";
 import Sidebar from "./globals/components/Sidebar";
 import Navbar from "./globals/components/Navbar";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import SingleAlbum from "./pages/SinglePages/SingleAlbum";
 import {Provider} from "react-redux"
 import store from "./store/store"
 
@@ -29,10 +30,12 @@ function App() {
                 <Route path="/list-song" element={<ListSong />} />
                 <Route path="/list-album" element={<ListAlbum />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+            
+                <Route path="/singleAlbum/:id" element={<SingleAlbum />} />
+          
               </Routes>
             </div>
           </div>
-
         </div>
       </BrowserRouter>
     </Provider>

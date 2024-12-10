@@ -1,12 +1,14 @@
 import { v2 as cloudinary } from "cloudinary";
 import albumModel from "../models/albumModel.js";
-import { response } from "express";
+
 
 //add album
 export const addAlbum = async (req, res) => {
     try{
         const { name, desc, bgColour } = req.body;
         const imageFile = req.file;
+        console.log(name,desc,bgColour)
+        console.log(imageFile)
         if (!name || !desc || !bgColour) {
             return res.status(404).json({ message: "Please provide name, description, and background color." });
         }

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { assets } from '../assets/admin-assets/assets';
+import React, { useEffect, useState } from 'react';
+import { assets } from '../../assets/admin-assets/assets';
 import axios from "axios";
 import { toast } from 'react-toastify';
 
@@ -9,13 +9,10 @@ const AddSong = () => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [album, setAlbum] = useState("none");
-  const [loading, setLoading] = useState(false);
   const [albumData, setAlbumData] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -25,7 +22,6 @@ const AddSong = () => {
       formData.append('album', album);
 
       const response = await axios.post("http://localhost:3000/api/song", formData);
-
       if (response.status === 200) {
         //toast.success("Song added successfully");
         alert("Song is added successfully")
@@ -35,19 +31,36 @@ const AddSong = () => {
         setImage(false);
         setSong(false);
       } else {
-        toast.error("Something went wrong.");
+        // toast.error("Something went wrong.");
+        alert("Something went wrong");
       }
     } catch (err) {
       alert("Something went wrong")
     }
-    setLoading(false);
   };
 
-  return loading ? (
-    <div className='grid place-items-center min-h-[80vh]'>
-      <div className='w-16 h-16 place-self-center border-4 border-gray-400 border-t-green-800 rounded-full animate-spin'></div>
-    </div>
-  ) : (
+
+  const selectAlbumData= async()=>{
+    try{
+      const response=await axios.get("http://localhost:3000/api/album");
+      if(response.status===200){
+        setAlbumData(response.data.data)
+      }else{
+        alert("Unable to load album data");
+      }
+    }catch(err){
+      alert("Error occured");
+    }
+  }
+
+
+  useEffect(()=>{
+    selectAlbumData();
+  },[])
+
+
+  return (
+  
     <>
       <form onSubmit={handleSubmit} className='flex flex-col items-start gap-8 text-gray-600'>
         <div className='flex gap-8'>
@@ -112,7 +125,13 @@ const AddSong = () => {
             value={album}
             className='bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[500px]'
           >
-            <option value="none">None</option>
+           
+            {
+              albumData.map((item, index) => (
+                <option key={index} value={item?.name}>{item?.name}</option>
+              ))
+              
+            }
           </select>
         </div>
 
@@ -124,7 +143,7 @@ const AddSong = () => {
         </button>
       </form>
     </>
-  );
+  )
 };
 
 export default AddSong;

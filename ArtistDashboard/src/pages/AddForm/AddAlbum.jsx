@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
-import { assets } from '../assets/admin-assets/assets'
+import { assets } from '../../assets/admin-assets/assets'
 import {useDispatch, useSelector} from  "react-redux"
-import { addAlbum } from '../store/albumSlice';
+import { addAlbum } from '../../store/albumSlice';
+import { STATUS } from '../../globals/components/Status';
 
 const AddAlbum = () => {
   const dispatch=useDispatch();
-  const {status}=useSelector((state)=>state.album);
+  const {status, albums}=useSelector((state)=>state.album);
   console.log(status);
+  console.log(albums)
 
   const [albumData, setAlbumData]=useState(({
     image:"",
     name:"",
     desc:"",
-    bgColor:"#121212",
+    bgColour:"#121212",
   }))
 
 
@@ -24,11 +26,21 @@ const AddAlbum = () => {
     })
   }
 
-  const handleSubmit=(e)=>{
+  const handleSubmit=async(e)=>{
     e.preventDefault();
-    dispatch(addAlbum(albumData))
+    dispatch(addAlbum(albumData));
+    if (status === STATUS.SUCCESS) {
+      alert('Successfully added the album');
+      // navigate('/tables');
+  } else {
+      alert('Failed to add the album!');
+  }
     
   }
+
+  console.log(albumData)
+
+
 
   return (
     <>
@@ -62,7 +74,7 @@ const AddAlbum = () => {
 
         <div className='flex flex-col gap-3'>
           <p>Background color</p>
-          <input onChange={handleChange} type='color' name='bgColor'/>
+          <input onChange={handleChange} type='color' name='bgColour'/>
         </div>
 
         <button type='submit' className='text-base bg-black text-white py-2.5 px-14 cursor-pointer'>Add</button>

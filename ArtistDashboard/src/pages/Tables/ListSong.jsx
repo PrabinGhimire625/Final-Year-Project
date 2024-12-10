@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import { deleteSong, listAllSong } from '../store/songSlice';
+import { deleteSong, listAllSong } from '../../store/songSlice';
 
 const ListSong = () => {
     const dispatch=useDispatch();
